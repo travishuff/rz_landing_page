@@ -59,22 +59,6 @@ of those sections to manage the look and feel of the site. */
     color: #fff;
 }
 
-#download {
-    border: 1px solid white;
-    border-radius: 3px;
-    float: none;
-    margin: 0 auto;
-    color: white;
-    font-size: 20px;
-    text-decoration: none;
-}
-
-#download:hover {
-    background: white;
-    color:#2196F3;
-    text-decoration: none;
-}
-
 .intro-section a:hover {
     text-decoration: none;
 }
@@ -149,7 +133,12 @@ of those sections to manage the look and feel of the site. */
 }
 
 #docwrapper a {
-    color: black;
+    color: white;
+    text-decoration: none;
+}
+
+#docwrapper a:hover {
+    text-decoration: underline;
 }
 
 #feedback {
