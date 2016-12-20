@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Scrolling Nav - Start Bootstrap Template</title>
+    <title>razorframe</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -73,9 +73,10 @@
                 <div class="col-lg-12">
                     <img id="logo" src="./assets/logo.png" height="300">
                     <h1>RAZORFRAME 1.0 IS HERE</h1>
-                    <h3>Razorframe is an open-source Javascript library that provides a “batteries-are-included” solution for managing client communication with backend processing.</h3>
-                    <h3>Join us on the real-time web with three lines of code.</h3>
-                    <img id="code" src="./assets/code.png" height="65">
+                    <h3>Razorframe is an easy-to-use, open-source library that enables highly scalable, real-time web applications.</h3>
+                    <h3>We power client communications on the front-end with socket.io, and concurrent and asynchronous operations on the back end using Node clusters, event emitters and a custom messaging queue.</h3>
+                    <a href="./assets/client.js" download><div class="col-lg-2" id="download">Download Client-Side API</div></a><br>
+                    <a class="github-button" href="https://github.com/team-emt/razorframe" data-style="mega" data-count-href="/team-emt/razorframe/stargazers" data-count-api="/repos/team-emt/razorframe#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star team-emt/razorframe on GitHub">Star</a>
                 </div>
             </div>
         </div>
@@ -110,8 +111,126 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h1>Documentation</h1>
-                    <!--<div id="docs"></div>-->
+                    <div id="docwrapper">
+                    <h1>razorframe</h1><br>
+<p><strong>Version</strong><br>
+<a href="https://badge.fury.io/js/razorframe"><img src="https://badge.fury.io/js/razorframe.svg" alt="npm version"></a></p>
+<h3><em>Empowering scalable, real-time web apps in Node.js</em></h3>
+<h2>Description</h2>
+<p>Razorframe is a Javascript library built on Node.js which enables developers to build a real-time client experience while maintaining scalable, async back-end operations.</p>
+<p>Socket.io powers real-time client updates on the front-end, while Node clusters and event emitters in conjunction with a custom messaging queue process highly concurrent and asynchronous operations on the back-end.</p>
+<p>We use a messaging queue, called razorframe, that intercepts incoming user interactions over a two-way socket channel.  Those interactions are held in the queue only as long as the server needs before dequeuing.  The dequeuing process then triggers an event that both updates the client UI and launches a back-end process such as a database write.</p>
+<p>Our tests have shown this process keeps the client UI updating in sub 100ms &quot;real-time&quot; fashion at scale while maintaining accurate database writes.</p>
+<h2>Installation</h2>
+<p><strong>Using npm:</strong></p>
+<pre><code>$ npm i --save razorframe
+</code></pre>
+<h2>How to Use</h2>
+<h3>Server-side module:</h3>
+<ol>
+<li>Require razorframe.</li>
+<li>Specify rzConfig object to set up server processes by declaring:</li>
+</ol>
+<ul>
+<li><code>rzConfig.port</code>: port where your server is listening.</li>
+<li><code>rzConfig.cluster</code>: true or false depending on whether you want to enable Node clusters.<br>
+(Even though our config automatically accounts for 1 process if not specified, you'll still get better performance if you turn off Node clusters if you know you won't be using more than one CPU.)</li>
+</ul>
+<ol start="3">
+<li>Specify dbConfig object to define your back-end callbacks.</li>
+</ol>
+<ul>
+<li><code>dbConfig.write</code>: 'create' function for database.</li>
+<li><code>dbConfig.show</code>: 'read' function for database.</li>
+<li><code>dbConfig.update</code>: 'update' function for database.</li>
+<li><code>dbConfig.delete</code>: 'delete' function for databse.</li>
+</ul>
+<ol start="4">
+<li>Initialize razorframe while passing in http (for your server) and the configurations.</li>
+</ol>
+<pre><code>const rz = require('razorframe');
 
+const rzConfig = {
+  port: process.env.PORT || 3000,
+  cluster: true
+};
+
+const dbConfig = {
+  write: addToDb,
+  show: showAll,
+  update: null,
+  delete: null,
+};
+ 
+rz.init(http, rzConfig, dbConfig);
+</code></pre>
+<h3>Client-side module:</h3>
+<p><strong>HTML</strong><br>
+Import 2 libraries: socket.io and razorframe into your HTML.<br>
+Download the client-side import file <a href="./assets/client.js" download>here</a>.</p>
+<pre><code>&lt;script src=&quot;/socket.io/socket.io.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;/razorframe.js&quot;&gt;&lt;/script&gt;
+</code></pre>
+<p><strong>Javascript</strong><br>
+Contains 2 methods:</p>
+<ol>
+<li><code>rz.publish</code>  - publishes a data payload to a particular event and specifies a back-end callback<br>
+Specify arguments:</li>
+</ol>
+<ul>
+<li><strong>contents:</strong> message data</li>
+<li><strong>function name (as a string):</strong> a back-end operation you want to perform as defined in dbConfig.</li>
+<li><strong>event name:</strong> name the event you can then subscribe to.</li>
+</ul>
+<pre><code>textForm.addEventListener('submit', (e) =&gt; {
+  e.preventDefault();
+  const contents = textInput.value;
+  rz.publish(contents, 'write', 'chatMsg')
+  textInput.value = '';
+});
+</code></pre>
+<ol start="2">
+<li><code>rz.subscribe</code> - listens for an event coming from the server<br>
+Specify arguments:</li>
+</ol>
+<ul>
+<li><strong>event name:</strong> the event you want to listen for.</li>
+<li><strong>callback function:</strong> any function you want to call on the payload from the event.</li>
+</ul>
+<pre><code>rz.subscribe('dbOnLoad', (data) =&gt; {
+  data.reverse().forEach(item =&gt; {
+    node = document.createElement('LI');
+    textNode = document.createTextNode(JSON.parse(item));
+    node.appendChild(textNode);
+    chatMsg.appendChild(node);
+  });
+});
+</code></pre>
+<p><strong>Error Handling:</strong><br>
+Razorframe enables error handling on the back-end if your database fails to query.<br>
+Within the error callback on your database controller, use the method:</p>
+<pre><code>if (err) rz.onError(MSG, 2);
+</code></pre>
+<p>where 'MSG' is the task being sent to the database and the second argument, in this case '2', specifies the number of attempts to do the query.  Razorframe will re-enqueue the task 'n' number of times with a default of 2 total attempts.  If the event fails to query after all attempts, a message is sent to the user that enqueued the event that the event has failed to write and will be dropped.</p>
+<h3>Demo App</h3>
+<p>Check out our demo app for more usage examples at: <a href="https://github.com/team-emt/rz_demo">RZ-Demo</a></p>
+<h3>Platform</h3>
+<p><a href="https://nodejs.org/">Node.js</a></p>
+<h3>Dependencies</h3>
+<p><a href="https://www.npmjs.com/package/socket.io">Socket.io</a></p>
+<h3>Authors</h3>
+<p><a href="huff.travis@gmail.com">Travis Huff</a><br>
+<a href="ed.sh.park@gmail.com">Eddie Park</a><br>
+<a href="Michael.sotkin@gmail.com">Michael Sotkin</a></p>
+<h3>Support</h3>
+<p>Tested in Chrome 55 &amp; Node 6/7.<br>
+GitHub Issues: <a href="https://github.com/team-emt/razorframe/issues">https://github.com/team-emt/razorframe/issues</a></p>
+<h3>Contributions</h3>
+<p>❤️ Contributions welcome!<br>
+Please see out GitHub repo at: <a href="https://github.com/team-emt/razorframe">https://github.com/team-emt/razorframe</a></p>
+<h3>License</h3>
+<p><a href="https://github.com/travishuff/razorframe/blob/master/LICENSE">MIT</a></p>
+</div>
                 </div>
             </div>
         </div>
@@ -125,7 +244,8 @@
                     <h1>Get Razorframe</h1>
                     <h3>Join the community, contribute to the code, or report bugs.</h3>
                     <a href="https://github.com/team-emt/razorframe"><img id="github" src="./assets/github.png" height="200"></a>
-                    <a href="https://www.npmjs.com/package/razorframe"><img id="npm" src="./assets/npm.png" height="120"></a>
+                    <a href="https://www.npmjs.com/package/razorframe"><img id="npm" src="./assets/npm.png" height="120"></a><br>
+                    <a href="https://docs.google.com/forms/d/e/1FAIpQLSdxOOe3qaxfK8kmPEZUaPQNM9cL_5jFxzUpHI_K2WNJvnpEuA/viewform"><div class="col-lg-2" id="feedback">Let Us Know What You Think</div></a>
                 </div>
             </div>
         </div>
@@ -140,6 +260,8 @@
     <!-- Scrolling Nav JavaScript -->
     <script src="js/jquery.easing.min.js"></script>
     <script src="js/scrolling-nav.js"></script>
+    <!-- Place this tag in your head or just before your close body tag. -->
+    <script async defer src="https://buttons.github.io/buttons.js"></script>
     <!--<script type="text/javascript" src="js/markdown.js"></script>-->
 </body>
 

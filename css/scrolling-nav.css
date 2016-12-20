@@ -16,6 +16,7 @@ html {
 
 h1 {
     opacity: 1;
+    margin-bottom: 30px;
 }
 
 h3 {
@@ -50,16 +51,38 @@ of those sections to manage the look and feel of the site. */
 }
 
 .intro-section {
-    height: 100%;
-    padding-top: 150px;
+    /*height: 100%;*/
+    padding-top: 100px;
+    padding-bottom: 60px;
     text-align: center;
     background: #2196F3;
     color: #fff;
 }
 
+#download {
+    border: 1px solid white;
+    border-radius: 3px;
+    float: none;
+    margin: 0 auto;
+    color: white;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+#download:hover {
+    background: white;
+    color:#2196F3;
+    text-decoration: none;
+}
+
+.intro-section a:hover {
+    text-decoration: none;
+}
+
 .about-section {
-    height: 100%;
-    padding-top: 150px;
+    /*height: 100%;*/
+    padding-top: 100px;
+    padding-bottom: 60px;
     text-align: center;
     background: #fff;
     color: #000000
@@ -74,8 +97,9 @@ of those sections to manage the look and feel of the site. */
 }
 
 .services-section {
-    height: 100%;
-    padding-top: 150px;
+    /*height: 100%;*/
+    padding-top: 100px;
+    padding-bottom: 60px;
     text-align: center;
     background: #2196F3;
     color: #fff;
@@ -83,7 +107,7 @@ of those sections to manage the look and feel of the site. */
 
 .contact-section {
     height: 100%;
-    padding-top: 150px;
+    padding-top: 100px;
     text-align: center;
     background: #fff;
     color: #000000;
@@ -104,4 +128,47 @@ of those sections to manage the look and feel of the site. */
 
 #npm {
     margin-left: 25px;
+}
+
+#docwrapper {
+    text-align: left;
+    background: #90CAF9;
+    width: 100%;
+    color: black;
+    padding: 10px 20px 10px 20px;
+    border: 1px solid #a2a9b5;
+    margin: 40px 0px 40px 0px;
+}
+
+#docwrapper p {
+    font-size: 16px;
+}
+
+#docwrapper li {
+    font-size: 16px;
+}
+
+#docwrapper a {
+    color: black;
+}
+
+#feedback {
+    border: 1px solid #2196F3;
+    border-radius: 3px;
+    float: none;
+    margin: 0 auto;
+    margin-top: 50px;
+    color: #2196F3;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+#feedback:hover {
+    background: #2196F3;
+    color:white;
+    text-decoration: none;
+}
+
+.contact-section a:hover {
+    text-decoration: none;
 }
